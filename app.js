@@ -70,7 +70,7 @@ app.get('/recipesInit', function (req, res) {
         }
     })
 })
-
+//get all recipes in DB     
 app.get('/fullrecipes' ,gettingArrayOfIngredients ,function(req, res){
     let sql = `SELECT * FROM recipes`
     pool.query(sql, (err, dbRes) => {
@@ -82,24 +82,27 @@ app.get('/fullrecipes' ,gettingArrayOfIngredients ,function(req, res){
     })
 });
 
-
+//initail get   
 app.get("/", function (req, res) {
     let html = '<h1> Hey User</h1>'
     res.send(html)
 })
 
-
+//ingredients recipes check. 
 app.post('/ingredientsCheck' ,gettingRecipeIdByIngredients , function (request , respose) {
     console.log(request.body)
     respose.json(request.body)
 })
 
+//methods use for Parsing, - All of my DATA was parsed from :
+//https://www.vegan-friendly.co.il/
 app.post('/recipesInserting', 
 insertIngredientsMiddleware, insertRecipesMiddleware, insertMappingMiddleware, function (request, respose) {
         console.log(`9 Hakunna matata`);
         respose.send('<h1>got it !</h1>');
 });
 
+//when use like recipe, This function make sure he didn'y like this recipe before. 
 app.post('/like', function (request, respose) {
     const{
         recipe_id,
@@ -121,6 +124,7 @@ app.post('/like', function (request, respose) {
     .catch(err => {console.log(err)})
 })
 
+//retrive the recipes that was liked, ORDER BY the number of likes. 
 app.get('/bestRecipesId', function(request, respose){
     sql = ` SELECT recipe_id, COUNT(*) like_count 
             FROM likes
@@ -131,6 +135,7 @@ app.get('/bestRecipesId', function(request, respose){
     })
     .catch(err => {console.log(err)})
 })
+
 
 function resetTablesMiddleware(req, res, next) {
     console.log('1 Deleting data from all tables');
@@ -237,6 +242,7 @@ function gettingRecipeIdByIngredients(request, respose, next){
 
 }
 
+//used for far (method for getting recipe by ID. 
 function getRecipeById(data){
     let code = ""
     for (let index = 0; index < data.length-1; index++) {
