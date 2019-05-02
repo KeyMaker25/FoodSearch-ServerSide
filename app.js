@@ -8,7 +8,6 @@ var casting = require('casting')
 
 const port = process.env.PORT || 3000
 const pool = new Pool({
-    //postgres://uhcdqgqaoahhpz:097bc9320efff68f261c24d2b2d302e43b715f748b6a1846b32d4c6c1ec9cef8@ec2-174-129-41-12.compute-1.amazonaws.com:5432/d1640ih38s8snf"
     connectionString: process.env.DATABASE_URL,
     ssl: true
 })
